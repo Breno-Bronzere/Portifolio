@@ -1,2 +1,2 @@
-# Portifolio
-Meu portifólio
+# comand to run server
+npm run dev
