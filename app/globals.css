@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #EDF1F5;
   --foreground: #171717;
-  --nav-background: #585858;
+  --nav-background: #fff;
+  --nav-link: #8FA9BE;
+  --nav-link-hover: #F5F7FA;
 }
 
 @theme inline {
@@ -15,14 +17,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --nav-background: #867f7f;
+    --background: #0F171D;
+    --foreground: #18242D;
+    --nav-background: #18242D;
+    --nav-link: #20659e;
+    --nav-link-hover: #0844a5;
   }
 }
 nav {
   background: var(--nav-background);
-  color: var(--foreground);
+  color: var(--nav-link);
   padding: 1rem;
 }
 body {
