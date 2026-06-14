@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 @import "tailwindcss";
+
 
 :root {
   --background: #EDF1F5;
@@ -13,17 +15,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-sora: 'Sora', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F171D;
-    --foreground: #18242D;
-    --nav-background: #18242D;
-    --nav-link: #20659e;
-    --nav-link-hover: #0844a5;
-  }
-}
+
 nav {
   background: var(--nav-background);
   color: var(--nav-link);
