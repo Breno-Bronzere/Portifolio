@@ -1,5 +1,6 @@
 // app/page.tsx
 import { Download, ArrowRight } from "lucide-react";
+import Card from "@/components/card";
 
 const stack = [
   "Next.js",
@@ -10,14 +11,21 @@ const stack = [
   "Tailwind CSS",
   "MySQL",
   "React.js",
-
 ];
+
 export default function Home() {
   return (
-    <section className="relative overflow-hidden bg-[#EDF1F5] w-full px-6 pt-36">
+    <section
+      className="
+        relative overflow-hidden bg-[#EDF1F5] min-h-screen
+        px-6 pt-24 pb-16
+        md:px-16
+        flex flex-col lg:flex-row lg:items-center lg:gap-16 lg:pt-0
+      "
+    >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 "
+        className="pointer-events-none absolute inset-0 z-0"
         style={{
           background: `
             radial-gradient(ellipse 55% 45% at 15% 5%,  rgba(91,133,163,0.13) 0%, transparent 65%),
@@ -27,37 +35,36 @@ export default function Home() {
         }}
       />
 
-      {/* Conteúdo */}
-      <div className="relative z-10 max-w-2xl">
+      <div className="relative z-10 flex-1 max-w-lg">
 
-        {/* Eyebrow */}
         <div className="mb-5 flex items-center gap-3">
           <span className="block h-px w-6 bg-[#AABECB]" />
-          <span className="text-2xl uppercase tracking-[0.1em] text-[#8FA9BE]">
+          <span className="text-[11px] uppercase tracking-[0.12em] text-[#8FA9BE]">
             Full Stack Developer
           </span>
         </div>
 
-        {/* Título */}
-        <h1 className="mb-4 text-[30px] font-medium leading-[1.2] tracking-tight text-[#3D6479] sm:text-[40px] md:text-[70px]">
-          Construindo produtos{" "}<br></br>
+        <h1 className="
+          mb-5
+          text-[38px] sm:text-[52px] md:text-[64px]
+          font-medium leading-[1.15] tracking-tight text-[#3D6479]
+        ">
+          Construindo produtos{" "}
           <em className="not-italic text-[#8FA9BE]">do back ao front.</em>
         </h1>
 
-        {/* Subtítulo */}
-        <p className="mb-8 max-w-[460px] text-[18px] leading-[1.7] text-[#8FA9BE]">
+        <p className="mb-8 max-w-105 text-[15px] leading-[1.75] text-[#8FA9BE]">
           Desenvolvo aplicações completas com foco em performance, clareza de
           código e experiências de usuário que funcionam de verdade.
         </p>
 
-        {/* CTAs */}
         <div className="mb-10 flex flex-wrap items-center gap-3">
           <a
             href="/projetos"
             className="
-              inline-flex items-center gap-2 rounded-[9px] h-[45px]
-              bg-[#3D6479] px-5 py-2.5
-              text-[13px] font-medium text-[#EDF1F5]
+              inline-flex items-center gap-2
+              rounded-[9px] h-11 px-5
+              bg-[#3D6479] text-[13px] font-medium text-[#EDF1F5]
               transition-opacity hover:opacity-90
             "
           >
@@ -69,8 +76,9 @@ export default function Home() {
             href="/curriculo.pdf"
             download
             className="
-              inline-flex items-center gap-2 rounded-[9px] h-[45px]
-              border border-[#C3D0DD] bg-white px-5 py-2.5
+              inline-flex items-center gap-2
+              rounded-[9px] h-11 px-5
+              border border-[#C3D0DD] bg-white
               text-[13px] font-medium text-[#5B85A3]
               transition-colors hover:border-[#8FA9BE]
             "
@@ -80,21 +88,23 @@ export default function Home() {
           </a>
         </div>
 
-        {/* Badges de stack */}
         <ul className="flex flex-wrap gap-2" aria-label="Tecnologias principais">
           {stack.map((tech) => (
             <li
               key={tech}
               className="
-                rounded-full border border-[#C3D0DD]
-                bg-white px-3 py-2
-                text-[12px] text-[#5B85A3]
+                rounded-full border border-[#C3D0DD] bg-white
+                px-3 py-1.5 text-[12px] text-[#5B85A3]
               "
             >
               {tech}
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="relative z-10 mt-14 lg:ml-auto w-full lg:w-100 shrink-0">
+        <Card />
       </div>
     </section>
   );

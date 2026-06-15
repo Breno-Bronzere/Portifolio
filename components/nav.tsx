@@ -36,7 +36,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-transform duration-300 bg-white border-b border-[#C3D0DD] ${
+      className={`fixed w-full z-50 transition-transform duration-300 bg-white border-b border-[#C3D0DD]  ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -67,7 +67,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-1.5 rounded text-[#3D6479] hover:text-white hover:bg-[#3D6479] focus:outline-none focus:ring-2 focus:ring-[#3D6479] transition-colors"
+            className="md:hidden p-1.5 rounded "
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={isMobileMenuOpen}
