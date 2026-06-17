@@ -1,4 +1,4 @@
-import { ArrowUpRight, Code } from "lucide-react";
+import { ArrowUpRight, CodeXml } from "lucide-react";
 
 type Project = {
   name: string;
@@ -56,8 +56,8 @@ function ProjectCard({ project }: { project: Project }) {
       "
     >
       
-      <div className="mb-1 flex items-center justify-between max-h-23">
-        <div className={"mb-3 flex h-9 w-9 items-center justify-center rounded-[9px] bg-[#8FA9BE] "} ><Code /> </div>
+      <div className="mb-1 flex items-center justify-between">
+        <div className={"mb-3 flex h-9 w-9 items-center justify-center rounded-[9px] bg-[#8FA9BE] "} ><CodeXml /> </div>
         <h3 className="text-[20px] font-medium flex-1 text-[#3D6479] pl-3">
           {project.name}
         </h3>

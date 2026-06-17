@@ -37,13 +37,6 @@ export default function Home() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background: `
-          radial-gradient(ellipse 55% 45% at 15% 5%,  rgba(91,133,163,0.13) 0%, transparent 65%),
-          radial-gradient(ellipse 40% 35% at 88% 75%, rgba(61,100,121,0.09) 0%, transparent 60%),
-          radial-gradient(ellipse 30% 30% at 55% 28%, rgba(170,190,203,0.08) 0%, transparent 55%)
-          `,
-        }}
       >
         <SmokeBackground />
 
@@ -121,5 +114,7 @@ export default function Home() {
         <Card />
       </div>
     </section>
+
+
   );
 }

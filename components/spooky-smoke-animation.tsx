@@ -11,6 +11,7 @@ out vec4 O;
 uniform float time;
 uniform vec2 resolution;
 uniform vec3 u_color;
+uniform float u_intensity;
 
 #define FC gl_FragCoord.xy
 #define R resolution
@@ -35,8 +36,12 @@ void main(){
 
   // "col" parte de branco (1,1,1) e o ruído subtrai valores dele,
   // ficando mais escuro onde a fumaça é mais densa.
-  // intensidade = 0 no fundo limpo (branco), até ~1 onde a fumaça é mais forte.
-  float intensity = clamp(1.0 - dot(col, vec3(.21,.71,.07)), 0.0, 1.0);
+  float raw = clamp(1.0 - dot(col, vec3(.21,.71,.07)), 0.0, 1.0);
+
+  // pow() empurra a maior parte da tela pra perto de zero (fundo limpo)
+  // e só deixa a intensidade subir nas zonas de pico do ruído.
+  // u_intensity controla o teto máximo de quanto a fumaça pode escurecer/tingir.
+  float intensity = pow(raw, 2.2) * u_intensity;
 
   // Mistura do branco puro até a cor escolhida, conforme a intensidade
   // da fumaça — preserva a cor exata passada em u_color, sem distorcer.
@@ -67,8 +72,10 @@ class Renderer {
     resolution: WebGLUniformLocation | null;
     time: WebGLUniformLocation | null;
     u_color: WebGLUniformLocation | null;
-  } = { resolution: null, time: null, u_color: null };
+    u_intensity: WebGLUniformLocation | null;
+  } = { resolution: null, time: null, u_color: null, u_intensity: null };
   private color: [number, number, number] = [0.5, 0.5, 0.5];
+  private intensity = 0.35;
 
   constructor(canvas: HTMLCanvasElement, fragmentSource: string) {
     this.canvas = canvas;
@@ -79,6 +86,10 @@ class Renderer {
 
   updateColor(newColor: [number, number, number]) {
     this.color = newColor;
+  }
+
+  updateIntensity(newIntensity: number) {
+    this.intensity = newIntensity;
   }
 
   updateScale() {
@@ -148,6 +159,7 @@ class Renderer {
       resolution: gl.getUniformLocation(program, "resolution"),
       time: gl.getUniformLocation(program, "time"),
       u_color: gl.getUniformLocation(program, "u_color"),
+      u_intensity: gl.getUniformLocation(program, "u_intensity"),
     };
   }
 
@@ -161,6 +173,7 @@ class Renderer {
     gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
     gl.uniform1f(uniforms.time, now * 1e-3);
     gl.uniform3fv(uniforms.u_color, this.color);
+    gl.uniform1f(uniforms.u_intensity, this.intensity);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 }
@@ -180,12 +193,15 @@ const hexToRgb = (hex: string): [number, number, number] | null => {
 interface SmokeBackgroundProps {
   /** Cor em hex usada para tingir os destaques da fumaça, ex: "#3D6479" */
   smokeColor?: string;
+  /** Intensidade da fumaça, de 0 (invisível, tela branca) a 1 (bem forte). Padrão: 0.35 */
+  intensity?: number;
   /** Classes extras aplicadas ao container (ex: "absolute inset-0 -z-10") */
   className?: string;
 }
 
 export default function SmokeBackground({
   smokeColor = "#5B85A3", // tom da paleta do site (azul-acinzentado)
+  intensity = 0.35,
   className = "",
 }: SmokeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
