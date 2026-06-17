@@ -1,6 +1,17 @@
 // app/page.tsx
 import { Download, ArrowRight } from "lucide-react";
 import Card from "@/components/card";
+import SmokeBackground from "@/components/spooky-smoke-animation";
+
+const Default = () => {
+  return <SmokeBackground />;
+};
+
+const Customized = () => {
+  return <SmokeBackground smokeColor="#3D6479" />;
+};
+
+export { Default, Customized };
 
 const stack = [
   "Next.js",
@@ -16,24 +27,27 @@ const stack = [
 export default function Home() {
   return (
     <section
-      className="
-        relative overflow-hidden bg-[#EDF1F5] min-h-screen
-        px-6 pt-24 pb-16
-        md:px-16
-        flex flex-col lg:flex-row lg:items-center lg:gap-16 lg:pt-0
+    className="
+    relative overflow-hidden bg-[#EDF1F5] min-h-screen
+    px-6 pt-24 pb-16
+    md:px-16
+    flex flex-col lg:flex-row lg:items-center lg:gap-16 lg:pt-0
       "
-    >
+      >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background: `
-            radial-gradient(ellipse 55% 45% at 15% 5%,  rgba(91,133,163,0.13) 0%, transparent 65%),
-            radial-gradient(ellipse 40% 35% at 88% 75%, rgba(61,100,121,0.09) 0%, transparent 60%),
-            radial-gradient(ellipse 30% 30% at 55% 28%, rgba(170,190,203,0.08) 0%, transparent 55%)
+          radial-gradient(ellipse 55% 45% at 15% 5%,  rgba(91,133,163,0.13) 0%, transparent 65%),
+          radial-gradient(ellipse 40% 35% at 88% 75%, rgba(61,100,121,0.09) 0%, transparent 60%),
+          radial-gradient(ellipse 30% 30% at 55% 28%, rgba(170,190,203,0.08) 0%, transparent 55%)
           `,
         }}
-      />
+      >
+        <SmokeBackground />
+
+      </div>
 
       <div className="relative z-10 flex-1 max-w-lg">
 

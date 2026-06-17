@@ -16,11 +16,10 @@ async function getProjects(): Promise<Project[]> {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
       },
       next: {
-        revalidate: 3600,
+        revalidate: 1300,
       },
     }
   );
-
   const repos = await response.json();
       return Promise.all(
       repos.map(async (repo: any) => {
@@ -57,18 +56,17 @@ function ProjectCard({ project }: { project: Project }) {
       "
     >
       
-      <div className="mb-1 flex items-center justify-between">
-        <div className={"mb-3 flex h-9 w-9 items-center justify-center rounded-[9px] bg-[#5B85A3]"} ><Code /> </div>
-        <h3 className="text-[20px] font-medium text-[#3D6479] pl-3">
+      <div className="mb-1 flex items-center justify-between max-h-23">
+        <div className={"mb-3 flex h-9 w-9 items-center justify-center rounded-[9px] bg-[#8FA9BE] "} ><Code /> </div>
+        <h3 className="text-[20px] font-medium flex-1 text-[#3D6479] pl-3">
           {project.name}
         </h3>
-        <p className="mb-2 text-[11px] text-[#8FA9BE] justify-end">
+        <p className="mb-2 text-[11px] text-[#8FA9BE] justify-end pr-1">
           Último commit:{" "}
           {project.lastCommit
             ? new Date(project.lastCommit).toLocaleDateString("pt-BR")
             : "Não disponível"}
         </p>
-
         <ArrowUpRight
           size={14}
           className="
@@ -77,8 +75,10 @@ function ProjectCard({ project }: { project: Project }) {
             group-hover:translate-x-0.5
             group-hover:-translate-y-0.5
             group-hover:text-[#5B85A3]
+            
           "
         />
+
       </div>
 
       <p className="mb-3 flex-1 text-[12px] leading-relaxed text-[#8FA9BE]">
@@ -124,10 +124,11 @@ export default async function card() {
         </span>
         <span className="h-px flex-1 bg-[#C3D0DD]" />
       </div>
-
+    <div className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar:none] h-140">
       {projects.map((project) => (
-        <ProjectCard key={project.name} project={project} />
+        <ProjectCard  key={project.name} project={project} />
       ))}
+    </div>
 
       <a
         href="/projetos"
