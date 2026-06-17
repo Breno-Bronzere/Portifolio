@@ -162,7 +162,7 @@ export function Component({
                   whileDrag={{ scale: 1.02, cursor: "grabbing" }}
                   
                   className={cn(
-                    "cursor-pointer rounded-xl border border-border bg-[#C3D0DD] p-4",
+                    "cursor-pointer rounded-xl border border-[#C3D0DD] bg-[#ffff] p-4",
                     "hover:border-[#5B85A3] transition-colors",
                     layout === "stack" && "absolute w-56 h-48",
                     layout === "stack" && isTopCard && "cursor-grab active:cursor-grabbing",
@@ -211,7 +211,7 @@ export function Component({
               key={index}
               onClick={() => setActiveIndex(index)}
               className={cn(
-                "h-1.5 rounded-full transition-all ",
+                "h-1.5 rounded-full transition-all",
                 index === activeIndex ? "w-4 bg-[#5B85A3]" : "w-1.5 bg-[#8FA9BE] hover:bg-grey",
               )}
               aria-label={`Go to card ${index + 1}`}
