@@ -137,8 +137,8 @@ export function Component({
               const isTopCard = layout === "stack" && card.stackPosition === 0
 
               return (
-                <motion.a
-                  href={card.link} target="_blank" 
+                <motion.div
+                 
                   key={card.id}
                   layoutId={card.id}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -171,7 +171,7 @@ export function Component({
                     isExpanded && "ring-2 ring-primary",
                   )}
                 >
-                  <div className="flex items-start gap-3">
+                  <a href={card.link} target="_blank"  className="flex items-start gap-3">
                     {card.icon && (
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#8FA9BE] text-foreground">
                         {card.icon}
@@ -190,14 +190,14 @@ export function Component({
                         {card.description}
                       </p>
                     </div>
-                  </div>
+                  </a>
 
                   {isTopCard && (
                     <div className="absolute bottom-2 left-0 right-0 text-center">
                       <span className="text-xs text-muted-foreground/50">Arraste aqui</span>
                     </div>
                   )}
-                </motion.a>
+                </motion.div>
               )
             })}
           </AnimatePresence>
