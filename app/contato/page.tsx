@@ -1,6 +1,6 @@
 import SmokeBackground from "@/components/spooky-smoke-animation";
 import { Component } from "@/components/morphing-card-stack";
-
+import Contato from "@/components/form"
 const cardData = [
   {
     id: "1",
@@ -58,8 +58,8 @@ export default function Home() {
       <div className="relative z-10 flex-1 max-w-lg">
           <Component cards={cardData} />
       </div>
-      <div className="relative z-10 mt-14 lg:ml-auto w-full lg:w-100 shrink-0">
-        
+      <div className="relative z-10 mt-14 lg:ml-auto w-full lg:w-160 shrink-0">
+        <Contato />
       </div>
     </section>
   );

@@ -106,7 +106,7 @@ export function Component({
   return (
     <div className={cn("space-y-4", className)}>
       {/* Layout Toggle */}
-      <div className="flex items-center justify-center gap-1 rounded-lg bg-[#8FA9BE] p-1 w-fit mx-auto">
+      <div className="flex  gap-1 rounded-lg bg-white p-1 w-fit mx-auto">
         {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
           const Icon = layoutIcons[mode]
           return (
