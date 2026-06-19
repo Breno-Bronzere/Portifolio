@@ -80,7 +80,7 @@ export default function Home() {
           </a>
 
           <a
-            href="/curriculo.pdf"
+            href="@/public/curriculo.pdf"
             download
             className="
               inline-flex items-center gap-2

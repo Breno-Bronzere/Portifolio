@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 const RATE_LIMIT = 3;        // max requests
-const RATE_WINDOW = 60_000;  // per 60 seconds
+const RATE_WINDOW = 120_000;  // per 60 seconds
 
 function getRateLimit(ip: string): { allowed: boolean; remaining: number } {
   const now = Date.now();

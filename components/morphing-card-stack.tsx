@@ -98,15 +98,15 @@ export function Component({
   const containerStyles = {
     stack: "relative h-64 w-64",
     grid: "grid grid-cols-2 gap-3",
-    list: "flex flex-col gap-3",
+    list: "flex flex-col gap-3 justify-center items-center",
   }
 
   const displayCards = layout === "stack" ? getStackOrder() : cards.map((c, i) => ({ ...c, stackPosition: i }))
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("space-y-4 ", className)}>
       {/* Layout Toggle */}
-      <div className="flex  gap-1 rounded-lg bg-white p-1 w-fit mx-auto">
+      <div className="flex gap-1 rounded-lg bg-white p-1 w-fit mx-auto">
         {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
           const Icon = layoutIcons[mode]
           return (
@@ -163,7 +163,7 @@ export function Component({
                   
                   className={cn(
                     "cursor-pointer rounded-xl border border-[#C3D0DD] bg-[#ffff] p-4",
-                    "hover:border-[#5B85A3] transition-colors",
+                    "hover:border-[#5B85A3] transition-colors justify-center items-center",
                     layout === "stack" && "absolute w-56 h-48",
                     layout === "stack" && isTopCard && "cursor-grab active:cursor-grabbing",
                     layout === "grid" && "w-full aspect-square",

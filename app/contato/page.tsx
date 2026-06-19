@@ -46,7 +46,7 @@ export default function Home() {
     relative overflow-hidden bg-[#EDF1F5] min-h-screen
     px-6 pt-24 pb-16
     md:px-16
-    flex flex-col lg:flex-row lg:items-center lg:gap-16 lg:pt-0
+    flex flex-col lg:flex-row items-center lg:gap-16 lg:pt-0
       ">
       <div
         aria-hidden="true"
@@ -55,7 +55,7 @@ export default function Home() {
         <SmokeBackground />
 
       </div>
-      <div className="relative z-10 flex-1 max-w-lg">
+      <div className="relative z-10 flex-1 max-w-lg ">
           <Component cards={cardData} />
       </div>
       <div className="relative z-10 mt-14 lg:ml-auto w-full lg:w-160 shrink-0">

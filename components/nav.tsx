@@ -36,7 +36,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-transform duration-300 bg-white border-b border-[#C3D0DD]  ${
+      className={`fixed w-full z-50 transition-transform duration-300 border-b border-[#C3D0DD]  ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
