@@ -1,5 +1,5 @@
 import SmokeBackground from "@/components/spooky-smoke-animation";
-import { Component } from "@/components/morphing-card-stack";
+import { Component } from "@/components/morphing-card";
 import Contato from "@/components/form"
 const cardData = [
   {
