@@ -15,7 +15,7 @@ export type Projeto = {
 export const numerosReset = [
   { valor: "3,4 mil", rotulo: "jogadores já entraram" },
   { valor: "23,7 mil", rotulo: "horas jogadas" },
-  { valor: "48", rotulo: "online ao mesmo tempo no pico" },
+  { valor: "148", rotulo: "online ao mesmo tempo no pico" },
 ];
 export const dataNumeros = "4 de novembro de 2026";
 
