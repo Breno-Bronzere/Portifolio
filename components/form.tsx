@@ -47,10 +47,10 @@ export default function Contato() {
   }
 
   const inputBase =
-    "w-full rounded-xl border border-[#C3D0DD] bg-white px-4 py-3 " +
-    "text-[13px] text-[#3D6479] placeholder-[#AABECB] " +
+    "w-full rounded-md border border-input bg-background/60 px-4 py-3 " +
+    "text-sm text-foreground placeholder:text-muted-foreground/60 " +
     "outline-none transition-all duration-150 " +
-    "focus:border-[#5B85A3] focus:ring-2 focus:ring-[#5B85A3]/10 " +
+    "focus:border-ring focus:ring-[3px] focus:ring-ring/25 " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
 
   const isDisabled = status === "sending" || status === "success";
@@ -60,36 +60,30 @@ export default function Contato() {
       <div className="relative z-10 mx-auto">
         {/* header */}
         <div className="mb-10">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="block h-px w-6 bg-[#AABECB]" />
-            <span className="text-[11px] uppercase tracking-[0.12em] text-[#8FA9BE]">
-              Contato
-            </span>
-          </div>
-          <h1 className="mb-3 text-[36px] font-medium leading-tight tracking-tight text-[#3D6479]">
-            Vamos conversar.
+          <h1 className="mb-3 text-display text-5xl leading-tight text-foreground">
+            Contato
           </h1>
-          <p className="text-[14px] leading-relaxed text-[#8FA9BE]">
-            Tem um projeto em mente ou quer trocar uma ideia? Me manda uma
-            mensagem <br/> respondo em até 24h.
+          <p className="text-[15px] leading-relaxed text-muted-foreground">
+            Conta o que você precisa: um site, um sistema, um bot, ajuda com
+            um servidor. Eu respondo no e-mail que você deixar, em até um dia.
           </p>
         </div>
 
         {/* success state */}
         {status === "success" ? (
-          <div className="flex flex-col items-center gap-4 rounded-2xl border border-[#C3D0DD] bg-white px-8 py-12 text-center shadow-sm">
-            <CheckCircle size={36} className="text-[#5B85A3]" />
+          <div className="flex flex-col items-center gap-4 rounded-md bg-card/90 px-8 py-12 text-center">
+            <CheckCircle size={36} className="text-success" />
             <div>
-              <p className="mb-1 text-[15px] font-medium text-[#3D6479]">
+              <p className="mb-1 text-[15px] font-medium text-foreground">
                 Mensagem enviada!
               </p>
-              <p className="text-[13px] text-[#8FA9BE]">
+              <p className="text-[13px] text-muted-foreground">
                 Obrigado pelo contato. Retorno em breve.
               </p>
             </div>
             <button
               onClick={() => setStatus("idle")}
-              className="mt-2 text-[12px] text-[#8FA9BE] underline underline-offset-2 hover:text-[#5B85A3] transition-colors"
+              className="mt-2 text-[12px] text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
             >
               Enviar outra mensagem
             </button>
@@ -98,13 +92,13 @@ export default function Contato() {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="flex flex-col gap-4 rounded-2xl border border-[#C3D0DD] bg-white p-6 shadow-sm"
+            className="flex flex-col gap-4 rounded-md bg-card/90 p-6 sm:p-7"
           >
             {/* name */}
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="name"
-                className="text-[11px] uppercase tracking-[0.09em] text-[#8FA9BE]"
+                className="text-sm text-muted-foreground"
               >
                 Nome
               </label>
@@ -126,7 +120,7 @@ export default function Contato() {
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="email"
-                className="text-[11px] uppercase tracking-[0.09em] text-[#8FA9BE]"
+                className="text-sm text-muted-foreground"
               >
                 E-mail
               </label>
@@ -148,7 +142,7 @@ export default function Contato() {
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="message"
-                className="text-[11px] uppercase tracking-[0.09em] text-[#8FA9BE]"
+                className="text-sm text-muted-foreground"
               >
                 Mensagem
               </label>
@@ -163,16 +157,16 @@ export default function Contato() {
                 required
                 className={`${inputBase} resize-none`}
               />
-              <span className="self-end text-[11px] text-[#AABECB]">
+              <span className="self-end text-[11px] text-muted-foreground">
                 {form.message.length}/2000
               </span>
             </div>
 
             {/* error */}
             {status === "error" && (
-              <div className="flex items-center gap-2 rounded-lg border border-red-100 bg-red-50 px-3 py-2.5">
-                <AlertCircle size={14} className="shrink-0 text-red-400" />
-                <p className="text-[12px] text-red-500">{errorMsg}</p>
+              <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2.5">
+                <AlertCircle size={14} className="shrink-0 text-destructive" />
+                <p className="text-[12px] text-destructive">{errorMsg}</p>
               </div>
             )}
 
@@ -182,15 +176,15 @@ export default function Contato() {
               disabled={isDisabled}
               className="
                 mt-1 inline-flex h-11 items-center justify-center gap-2
-                rounded-xl bg-[#3D6479] px-6
-                text-[13px] font-medium text-white
+                rounded-md bg-primary px-6
+                text-sm font-medium text-primary-foreground
                 transition-opacity hover:opacity-90
                 disabled:cursor-not-allowed disabled:opacity-50
               "
             >
               {status === "sending" ? (
                 <>
-                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
                   Enviando…
                 </>
               ) : (

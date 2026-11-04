@@ -1,6 +1,7 @@
-import { ArrowUpRight, CodeXml } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Stack } from "@/components/ui";
 
-type Project = {
+type Repo = {
   name: string;
   description: string | null;
   href: string;
@@ -8,139 +9,100 @@ type Project = {
   stack: string[];
 };
 
-async function getProjects(): Promise<Project[]> {
-  const response = await fetch(
-    "https://api.github.com/users/Breno-Bronzere/repos",
-    {
-      headers:{
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
-      },
-      next: {
-        revalidate: 1300,
-      },
-    }
-  );
-  const repos = await response.json();
-      return Promise.all(
-      repos.map(async (repo: any) => {
-        const [languageRes] = await Promise.all([
-          fetch(repo.languages_url, {
-            next: { revalidate: 3600 },
-          })
-        ]);
+type GithubRepo = {
+  name: string;
+  description: string | null;
+  html_url: string;
+  pushed_at: string | null;
+  languages_url: string;
+  fork: boolean;
+};
 
-        const languages = await languageRes.json();
+async function getRepos(): Promise<Repo[]> {
+  const token = process.env.GITHUB_TOKEN;
+  const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
 
-        return {
-          name: repo.name,
-          description: repo.description,
-          href: repo.html_url,
-          stack: Object.keys(languages),
-          lastCommit: repo.pushed_at,
-        };
-      })
+  try {
+    const response = await fetch(
+      "https://api.github.com/users/Breno-Bronzere/repos?sort=pushed&per_page=12",
+      { headers, next: { revalidate: 1300 } },
     );
+    if (!response.ok) return [];
+    const repos: GithubRepo[] = await response.json();
+
+    return Promise.all(
+      repos
+        .filter((r) => !r.fork && r.name !== "Breno-Bronzere")
+        .map(async (repo) => {
+          let stack: string[] = [];
+          try {
+            const res = await fetch(repo.languages_url, { headers, next: { revalidate: 3600 } });
+            if (res.ok) stack = Object.keys(await res.json());
+          } catch {}
+          return {
+            name: repo.name,
+            description: repo.description,
+            href: repo.html_url,
+            stack,
+            lastCommit: repo.pushed_at,
+          };
+        }),
+    );
+  } catch {
+    return [];
+  }
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function RepoCard({ repo }: { repo: Repo }) {
   return (
     <a
-      href={project.href}
+      href={repo.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="
-        group flex flex-col
-        rounded-xl border border-[#C3D0DD] bg-white
-        p-5 transition-all duration-200
-        hover:border-[#8FA9BE] hover:shadow-sm
-      "
+      className="group flex flex-col gap-3 rounded-md bg-card/80 p-5 transition-colors hover:bg-card focus-visible:outline-2 focus-visible:outline-ring"
     >
-      
-      <div className="mb-1 flex items-center justify-between">
-        <div className={"mb-3 flex h-9 w-9 items-center justify-center rounded-[9px] bg-[#8FA9BE] "} ><CodeXml /> </div>
-        <h3 className="text-[20px] font-medium flex-1 text-[#3D6479] pl-3">
-          {project.name}
-        </h3>
-        <p className="mb-2 text-[11px] text-[#8FA9BE] justify-end pr-1">
-          Último commit:{" "}
-          {project.lastCommit
-            ? new Date(project.lastCommit).toLocaleDateString("pt-BR")
-            : "Não disponível"}
-        </p>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-display text-2xl text-foreground">{repo.name}</h3>
         <ArrowUpRight
           size={14}
-          className="
-            text-[#AABECB]
-            transition-all duration-200
-            group-hover:translate-x-0.5
-            group-hover:-translate-y-0.5
-            group-hover:text-[#5B85A3]
-            
-          "
+          className="shrink-0 text-muted-foreground transition-colors group-hover:text-foreground"
         />
-
       </div>
-
-      <p className="mb-3 flex-1 text-[12px] leading-relaxed text-[#8FA9BE]">
-        {project.description ?? "Sem descrição."}
+      <p className="line-clamp-2 flex-1 text-[13px] leading-relaxed text-muted-foreground">
+        {repo.description ?? "Sem descrição."}
       </p>
-
-      <ul className="flex flex-wrap gap-1.5">
-        {project.stack.map((tech) => (
-          <li
-            key={tech}
-            className="
-              rounded-[5px]
-              border border-[#C3D0DD]
-              bg-[#EDF1F5]
-              px-2 py-0.5
-              text-[11px]
-              text-[#5B85A3]
-            "
-          >
-            {tech}
-          </li>
-        ))}
-      </ul>
+      <div className="flex items-end justify-between gap-3">
+        <Stack itens={repo.stack.slice(0, 4)} />
+        {repo.lastCommit && (
+          <span className="shrink-0 text-[11px] text-muted-foreground">
+            {new Date(repo.lastCommit).toLocaleDateString("pt-BR")}
+          </span>
+        )}
+      </div>
     </a>
   );
 }
 
-export default async function card() {
-  const projects = await getProjects();
+export default async function RepoGrid() {
+  const repos = await getRepos();
+
+  if (repos.length === 0) {
+    return (
+      <p className="text-center text-sm text-muted-foreground">
+        Não consegui carregar os repositórios agora.{" "}
+        <a href="https://github.com/Breno-Bronzere" className="text-foreground underline underline-offset-4">
+          Veja direto no GitHub
+        </a>
+        .
+      </p>
+    );
+  }
 
   return (
-    <div
-      className="
-        z-10
-        mt-12 lg:mt-0
-        w-full lg:w-105 lg:shrink-0
-        flex flex-col gap-3 pr-0
-      "
-    >
-      <div className="mb-1 flex items-center gap-3">
-        <span className="text-[11px] uppercase tracking-[0.09em] text-[#8FA9BE]">
-          Projetos selecionados
-        </span>
-        <span className="h-px flex-1 bg-[#C3D0DD]" />
-      </div>
-    <div className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar:none] h-140">
-      {projects.map((project) => (
-        <ProjectCard  key={project.name} project={project} />
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {repos.map((repo) => (
+        <RepoCard key={repo.name} repo={repo} />
       ))}
-    </div>
-
-      <a
-        href="/projetos"
-        className="
-          mt-1 inline-flex items-center gap-1.5 self-center
-          text-[12px] text-[#8FA9BE]
-          transition-colors hover:text-[#5B85A3]
-        "
-      >
-        Ver todos os projetos
-        <ArrowUpRight size={13} />
-      </a>
     </div>
   );
 }

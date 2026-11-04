@@ -43,13 +43,9 @@ void main(){
   // u_intensity controla o teto máximo de quanto a fumaça pode escurecer/tingir.
   float intensity = pow(raw, 2.2) * u_intensity;
 
-  // Mistura do branco puro até a cor escolhida, conforme a intensidade
-  // da fumaça — preserva a cor exata passada em u_color, sem distorcer.
-  col = mix(vec3(1.0), u_color, intensity);
-
-  col=mix(vec3(1.0),col,min(time*.1,1.));
-  col=clamp(col,0.0,1.0);
-  O=vec4(col,1);
+  // Saída em alfa pré-multiplicado, sobre o fundo da página.
+  float a = clamp(intensity * min(time*.1,1.), 0.0, 1.0);
+  O=vec4(u_color*a, a);
 }`;
 
 const vertexShaderSource = `#version 300 es
@@ -79,7 +75,7 @@ class Renderer {
 
   constructor(canvas: HTMLCanvasElement, fragmentSource: string) {
     this.canvas = canvas;
-    this.gl = canvas.getContext("webgl2");
+    this.gl = canvas.getContext("webgl2", { premultipliedAlpha: true, alpha: true });
     this.setup(fragmentSource);
     this.init();
   }
@@ -166,7 +162,7 @@ class Renderer {
   render(now = 0) {
     const { gl, program, buffer, canvas, uniforms } = this;
     if (!gl || !program || !gl.isProgram(program)) return;
-    gl.clearColor(1, 1, 1, 1);
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -193,7 +189,7 @@ const hexToRgb = (hex: string): [number, number, number] | null => {
 interface SmokeBackgroundProps {
   /** Cor em hex usada para tingir os destaques da fumaça, ex: "#3D6479" */
   smokeColor?: string;
-  /** Intensidade da fumaça, de 0 (invisível, tela branca) a 1 (bem forte). Padrão: 0.35 */
+  /** Intensidade da fumaça, de 0 (invisível) a 1 (bem forte). Padrão: 0.35 */
   intensity?: number;
   /** Classes extras aplicadas ao container (ex: "absolute inset-0 -z-10") */
   className?: string;
@@ -251,6 +247,10 @@ export default function SmokeBackground({
       }
     }
   }, [smokeColor]);
+
+  useEffect(() => {
+    rendererRef.current?.updateIntensity(intensity);
+  }, [intensity]);
 
   return <canvas ref={canvasRef} className={`block h-full w-full ${className}`} />;
 }

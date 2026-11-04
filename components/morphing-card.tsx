@@ -106,7 +106,7 @@ export function Component({
   return (
     <div className={cn("space-y-4 ", className)}>
       {/* Layout Toggle */}
-      <div className="flex gap-1 rounded-lg bg-white p-1 w-fit mx-auto">
+      <div className="flex gap-1 rounded-full bg-card/90 p-1 w-fit mx-auto">
         {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
           const Icon = layoutIcons[mode]
           return (
@@ -114,10 +114,10 @@ export function Component({
               key={mode}
               onClick={() => setLayout(mode)}
               className={cn(
-                "rounded-md p-2 transition-all",
+                "rounded-full p-2 transition-all",
                 layout === mode
-                  ? "bg-[#5B85A3] text-primary-foreground"
-                  : "text-muted-foreground hover:text-[#5B85A3] hover:bg-secondary",
+                  ? "bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
               )}
               aria-label={`Switch to ${mode} layout`}
             >
@@ -162,23 +162,23 @@ export function Component({
                   whileDrag={{ scale: 1.02, cursor: "grabbing" }}
                   
                   className={cn(
-                    "cursor-pointer rounded-xl border border-[#C3D0DD] bg-[#ffff] p-4",
-                    "hover:border-[#5B85A3] transition-colors justify-center items-center",
+                    "cursor-pointer rounded-2xl border border-border bg-card p-4 shadow-[inset_0_1px_0_0_rgb(231_228_222/0.08)]",
+                    "hover:border-foreground/30 transition-colors justify-center items-center",
                     layout === "stack" && "absolute w-56 h-48",
                     layout === "stack" && isTopCard && "cursor-grab active:cursor-grabbing",
                     layout === "grid" && "w-full aspect-square",
                     layout === "list" && "w-full",
-                    isExpanded && "ring-2 ring-primary",
+                    isExpanded && "ring-2 ring-ring",
                   )}
                 >
                   <a href={card.link} target="_blank"  className="flex items-start gap-3">
                     {card.icon && (
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#8FA9BE] text-foreground">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-secondary text-foreground">
                         {card.icon}
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-card-foreground truncate">{card.title}</h3>
+                      <h3 className="font-medium text-foreground truncate">{card.title}</h3>
                       <p
                         className={cn(
                           "text-sm text-muted-foreground mt-1",
@@ -212,7 +212,7 @@ export function Component({
               onClick={() => setActiveIndex(index)}
               className={cn(
                 "h-1.5 rounded-full transition-all",
-                index === activeIndex ? "w-4 bg-[#5B85A3]" : "w-1.5 bg-[#8FA9BE] hover:bg-grey",
+                index === activeIndex ? "w-4 bg-primary" : "w-1.5 bg-muted-foreground/40 hover:bg-muted-foreground",
               )}
               aria-label={`Go to card ${index + 1}`}
             />
