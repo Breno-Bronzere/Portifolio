@@ -1,4 +1,3 @@
-import SmokeBackground from "@/components/spooky-smoke-animation";
 import { Component } from "@/components/morphing-card";
 import Contato from "@/components/form"
 const cardData = [
@@ -43,22 +42,14 @@ const cardData = [
 export default function Home() {
   return (
     <section className="
-    relative overflow-hidden bg-[#EDF1F5] min-h-screen
-    px-6 pt-24 pb-16
-    md:px-16
-    flex flex-col lg:flex-row items-center lg:gap-16 lg:pt-0
+    relative isolate min-h-[calc(100vh-3.5rem)]
+    px-2 pt-20 pb-16
+    flex flex-col lg:flex-row items-center gap-14 lg:gap-16
       ">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0"
-        >
-        <SmokeBackground />
-
-      </div>
-      <div className="relative z-10 flex-1 max-w-lg ">
+      <div className="enter relative z-10 flex-1 max-w-lg [animation-delay:160ms]">
           <Component cards={cardData} />
       </div>
-      <div className="relative z-10 mt-14 lg:ml-auto w-full lg:w-160 shrink-0">
+      <div className="enter relative z-10 w-full lg:ml-auto lg:w-[34rem] shrink-0">
         <Contato />
       </div>
     </section>
